@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout</title>
+    <style media="screen">
+        html * {
+            padding: 0;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .layout article div {
+            min-height: 100px;
+        }
+
+        .layout {
+            margin-bottom: 20px;
+
+            .left {
+                width: 300px;
+                background: red;
+            }
+
+            .center {
+                background: yellow;
+            }
+
+            .right {
+                width: 300px;
+                background: blue;
+            }
+        }
+
+
+        /* 浮动布局 */
+        .layout.float-layout {
+            .left {
+                float: left;
+            }
+
+            .right {
+                float: right;
+            }
+
+            /* .center {
+                overflow: hidden;
+            } */
+        }
+
+        /* 绝对定位布局 */
+        .layout.absolute-layout {
+            .left-center-right>div {
+                position: absolute;
+            }
+
+            .left {
+                left: 0;
+            }
+
+            .right {
+                right: 0;
+            }
+
+            .center {
+                left: 300px;
+                right: 300px;
+            }
+        }
+
+        /* flexbox 解决方案 */
+        .layout.flexbox-layout {
+            margin-top: 150px;
+            /* 手动空出 >= 100+20+20 px */
+
+            .left-center-right {
+                display: flex;
+
+                .center {
+                    flex: 1;
+                }
+            }
+        }
+
+        /* 表格布局 */
+        .layout.table-layout .left-center-right {
+            display: table;
+            width: 100%;
+            height: 100px;
+
+            &>div {
+                display: table-cell;
+            }
+
+            /* .center {
+                vertical-align: middle;
+            } */
+        }
+
+        /* 网格布局 */
+        .layout.grid-layout .left-center-right {
+            display: grid;
+            grid-template-columns: 300px 1fr 300px;
+            grid-template-rows: 100px;
+        }
+
+        /* 圣杯布局 */
+        .layout.shengbei-layout .center-left-right {
+            padding: 0 300px;
+
+            &>div {
+                float: left;
+                position: relative;
+            }
+
+            .left {
+                left: -300px;
+                margin-left: -100%;
+            }
+
+            .right {
+                right: -300px;
+                margin-left: -300px;
+            }
+
+            .center {
+                width: 100%;
+            }
+        }
+
+        /* 双飞翼布局 */
+        .layout.shuangfeiyi-layout .center-left-right {
+            &>div {
+                float: left;
+            }
+
+            .left {
+                left: -300px;
+                margin-left: -100%;
+            }
+
+            .right {
+                right: -300px;
+                margin-left: -300px;
+            }
+
+            .center {
+                width: 100%;
+
+                /* 在中间栏嵌套一个div */
+                .content {
+                    margin: 0 300px;
+                }
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>三栏布局</h1>
+    <!-- 假设高度已知，请写出三栏布局，其中左栏、右栏宽度各位300px，中间自适应 -->
+
+    <section class="layout float-layout">
+        <article class="left-right-center">
+            <div class="left"></div>
+            <div class="right"></div>
+            <div class="center">
+                <h2>页面布局解决方案 —— 浮动布局</h2>
+                <button id="btn1" type="button">浮动布局</button>
+                <button id="btn10" type="button">重置样式</button>
+                <p>特点：</p>
+                <p>1. 脱离文档流，设置 float 的浮动元素不占有空间，会与其它元素重叠，若父元素不设置高度或不清除浮动，会形成高度塌陷</p>
+                <p>2. 其中一块元素高度变化其他块元素不会随之变化</p>
+                <p>3. 兼容性好；适用于文字环绕场景</p>
+            </div>
+        </article>
+    </section>
+
+
+    <section class="layout absolute-layout">
+        <article class="left-center-right">
+            <div class="left"></div>
+            <div class="center">
+                <h2>页面布局解决方案 —— 绝对定位</h2>
+                <button id="btn2" type="button">绝对定位</button>
+                <button id="btn20" type="button">重置样式</button>
+                <p>特点：</p>
+                <p>1. 脱离文档流（解决方法：设置父元素高度或通过 margin-top 来解决）</p>
+                <p>2. 其中一块元素高度变化其他块元素不会随之变化</p>
+            </div>
+            <div class="right"></div>
+        </article>
+    </section>
+
+    <section class="layout flexbox-layout">
+        <article class="left-center-right">
+            <div class="left"></div>
+            <div class="center">
+                <h2>页面布局解决方案 —— flexbox 布局</h2>
+                <button id="btn3" type="button">flexbox 布局</button>
+                <button id="btn30" type="button">重置样式</button>
+                <p>特点：</p>
+                <p>1. 不支持 IE 9 及以下</p>
+                <p>2. 不设置高度时，三块元素高度会相互影响</p>
+            </div>
+            <div class="right"></div>
+        </article>
+    </section>
+
+    <section class="layout table-layout">
+        <article class="left-center-right">
+            <div class="left"></div>
+            <div class="center">
+                <h2>页面布局解决方案 —— table 布局</h2>
+                <button id="btn4" type="button">table 布局</button>
+                <button id="btn40" type="button">重置样式</button>
+                <p>特点：</p>
+                <p>1. 不设置高度时，三块元素高度会相互影响，但有时候我们并不想让三块元素高度相互影响</p>
+                <p>2. 解决上述旧版本 IE 不兼容的情景问题</p>
+            </div>
+            <div class="right"></div>
+        </article>
+    </section>
+
+    <section class="layout grid-layout">
+        <article class="left-center-right">
+            <div class="left"></div>
+            <div class="center">
+                <h2>页面布局解决方案 —— grid 布局</h2>
+                <button id="btn5" type="button">grid 布局</button>
+                <button id="btn50" type="button">重置样式</button>
+                <p>特点：</p>
+                <p>1. 元素的高度固定不随内容变化</p>
+                <p>2. CSS 3 新特性</p>
+                <p>增加高度内容</p>
+            </div>
+            <div class="right"></div>
+        </article>
+    </section>
+
+    <section class="layout shengbei-layout">
+        <article class="center-left-right">
+            <div class="center">
+                <h2>页面布局解决方案 —— 圣杯布局</h2>
+                <button id="btn6" type="button">圣杯布局</button>
+                <button id="btn60" type="button">重置样式</button>
+                <p>特点：</p>
+                <p>1. 其中一块元素高度变化其他块元素不会随之变化</p>
+                <p>2. 借助其他非主要元素覆盖了其父元素的 padding 值所占据的宽度</p>
+                <p>3. 当 center 部分的宽小于 left 部分时就会发生布局混乱</p>
+            </div>
+            <div class="left"></div>
+            <div class="right"></div>
+        </article>
+    </section>
+
+    <section class="layout shuangfeiyi-layout">
+        <article class="center-left-right">
+            <div class="center">
+                <div class="content">
+                    <h2>页面布局解决方案 —— 双飞翼布局</h2>
+                    <button id="btn7" type="button">双飞翼布局</button>
+                    <button id="btn70" type="button">重置样式</button>
+                    <p>特点：</p>
+                    <p>1. 其中一块元素高度变化其他块元素不会随之变化</p>
+                    <p>2. 借助其他非主要元素覆盖了其父元素的 padding 值所占据的宽度</p>
+                    <p>3. 当 center 部分的宽小于 left 部分时就会发生布局混乱</p>
+                </div>
+            </div>
+            <div class="left"></div>
+            <div class="right"></div>
+        </article>
+    </section>
+
+
+    <script type="text/javascript">
+        const layouts = document.querySelectorAll('.layout');
+
+        const btn1 = document.getElementById('btn1');
+        const btn10 = document.getElementById('btn10');
+
+        const btn2 = document.getElementById('btn2');
+        const btn20 = document.getElementById('btn20');
+
+        const btn3 = document.getElementById('btn3');
+        const btn30 = document.getElementById('btn30');
+
+        const btn4 = document.getElementById('btn4');
+        const btn40 = document.getElementById('btn40');
+
+        const btn5 = document.getElementById('btn5');
+        const btn50 = document.getElementById('btn50');
+
+        const btn6 = document.getElementById('btn6');
+        const btn60 = document.getElementById('btn60');
+
+        // 浮动布局
+        btn1.onclick = () => {
+            floatLayout();
+        }
+        btn10.onclick = () => {
+            if (layouts[0].classList.contains('float-layout')) {
+                resetLayout(0);
+            }
+        }
+        const floatLayout = () => {
+            if (!layouts[0].classList.contains('float-layout')) {
+                layouts[0].classList.add('float-layout');
+            }
+        }
+
+        // 绝对定位
+        btn2.onclick = () => {
+            absoluteLayout();
+        }
+        btn20.onclick = () => {
+            if (layouts[1].classList.contains('absolute-layout')) {
+                resetLayout(1);
+            }
+        }
+        const absoluteLayout = () => {
+            if (!layouts[1].classList.contains('absolute-layout')) {
+                layouts[1].classList.add('absolute-layout');
+            }
+        }
+
+        // flexbox 解决方案
+        btn3.onclick = () => {
+            flexboxLayout();
+        }
+        btn30.onclick = () => {
+            if (layouts[2].classList.contains('flexbox-layout')) {
+                resetLayout(2);
+            }
+        }
+        const flexboxLayout = () => {
+            if (!layouts[2].classList.contains('flexbox-layout')) {
+                layouts[2].classList.add('flexbox-layout');
+            }
+        }
+
+        // 表格布局
+        btn4.onclick = () => {
+            tableLayout();
+        }
+        btn40.onclick = () => {
+            if (layouts[3].classList.contains('table-layout')) {
+                resetLayout(3);
+            }
+        }
+        const tableLayout = () => {
+            if (!layouts[3].classList.contains('table-layout')) {
+                layouts[3].classList.add('table-layout');
+            }
+        }
+
+        // 网格布局
+        btn5.onclick = () => {
+            gridLayout();
+        }
+        btn50.onclick = () => {
+            if (layouts[4].classList.contains('grid-layout')) {
+                resetLayout(4);
+            }
+        }
+        const gridLayout = () => {
+            if (!layouts[4].classList.contains('grid-layout')) {
+                layouts[4].classList.add('grid-layout');
+            }
+        }
+
+        // 圣杯布局
+        btn6.onclick = () => {
+            shengbeiLayout();
+        }
+        btn60.onclick = () => {
+            if (layouts[5].classList.contains('shengbei-layout')) {
+                resetLayout(5);
+            }
+        }
+        const shengbeiLayout = () => {
+            if (!layouts[5].classList.contains('shengbei-layout')) {
+                layouts[5].classList.add('shengbei-layout');
+            }
+        }
+
+        // 双飞翼布局
+        btn7.onclick = () => {
+            shuangfeiyiLayout();
+        }
+        btn70.onclick = () => {
+            if (layouts[6].classList.contains('shuangfeiyi-layout')) {
+                resetLayout(6);
+            }
+        }
+        const shuangfeiyiLayout = () => {
+            if (!layouts[6].classList.contains('shuangfeiyi-layout')) {
+                layouts[6].classList.add('shuangfeiyi-layout');
+            }
+        }
+
+        // 重置样式
+        const resetLayout = (index) => {
+            layouts[index].classList.remove('float-layout', 'absolute-layout', 'flexbox-layout', 'table-layout', 'grid-layout', 'shengbei-layout', 'shuangfeiyi-layout');
+        }
+    </script>
+</body>
+
+</html>
