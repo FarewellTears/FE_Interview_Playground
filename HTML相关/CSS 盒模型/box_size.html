@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 盒模型</title>
+    <style media="screen">
+        html * {
+            margin: 0;
+            padding: 0;
+        }
+
+        section {
+            margin-bottom: 30px;
+        }
+
+        .box-father {
+            background: #f00;
+            margin-top: 100px;
+
+            .box-child {
+                background: yellow;
+                height: 100px;
+                margin-top: 50px;
+                margin-bottom: 50px;
+            }
+
+            .box-child-sibling {
+                background: #0f0;
+                height: 100px;
+                margin-top: 50px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 父子元素边距重叠 + 兄弟元素边距重叠 + 空 block 元素边距重叠 -->
+    <!-- 边距重叠的处理原则：取最大值 -->
+    <section class="box-father">
+        <style>
+            /* 解决垂直兄弟盒子外边距重叠
+            ** 1. 给下面的兄弟元素设置 position: absolute/fixed（脱离文档流，影响后面的元素）
+            ** 2. 给下面的兄弟元素设置 float: left/right（影响后面的元素）
+            ** 3. 给下面的兄弟元素设置 display: inline-block
+            ** 4. 其中一个元素外套一个 div 并设置 overflow: hidden;
+            */
+            .box-child-sibling {
+                display: inline-block;
+            }
+
+            /* 解决父子嵌套边距重叠 margin 塌陷
+            ** 1. 给父级元素设置 overflow: hidden
+            ** 2. 给父级元素设置 display: table/inline-block
+            ** ......
+            */
+            .box-father {
+                overflow: hidden;
+                /* display: table/inline-block; */
+                /* 相当于创建 BFC */
+            }
+        </style>
+        <article class="box-child">子元素</article>
+        <article class="box-child-sibling">
+            兄弟元素
+        </article>
+    </section>
+
+
+
+    <!-- BFC 垂直方向边距重叠，即兄弟元素边距重叠问题 -->
+    <section id="margin">
+        <style>
+            #margin {
+                background: pink;
+                overflow: hidden;
+            }
+
+            #margin>p {
+                margin: 5px auto 25px;
+                background: red;
+            }
+        </style>
+        <p>1</p>
+        <!-- <p>2</p> -->
+
+        <!-- 给父级元素创建一个 BFC 解决垂直边距重叠的问题 -->
+        <div style="overflow:hidden">
+            <p>2</p>
+        </div>
+
+        <p>3</p>
+    </section>
+
+    <!-- BFC 不与 float 重叠 -->
+    <section id="layout">
+        <style media="screen">
+            #layout {
+                background: red;
+            }
+
+            #layout .left {
+                float: left;
+                width: 100px;
+                height: 100px;
+                background: pink;
+            }
+
+            #layout .right {
+                height: 110px;
+                background: #ccc;
+
+                /* 创建 BFC，使其不与浮动元素重叠 */
+                overflow: auto;
+            }
+        </style>
+        <div class="left"></div>
+        <div class="right"></div>
+    </section>
+
+    <!-- 在设置 float 时，父级元素高度为 0，因此需要清除浮动 -->
+    <!-- 清除浮动：设置 BFC 后，子元素即使是 float 也会参与计算 -->
+    <section id="float">
+        <style media="screen">
+            #float {
+                background: red;
+
+                /* 创建 BFC，清除浮动 */
+                overflow: auto;
+                /* float: left; */
+            }
+
+            #float .float {
+                float: left;
+                font-size: 30px;
+            }
+        </style>
+        <div class="float">我是浮动元素</div>
+    </section>
+
+</body>
+
+</html>
