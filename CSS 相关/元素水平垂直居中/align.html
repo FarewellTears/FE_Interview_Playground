@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>元素的水平垂直居中</title>
+    <style>
+        .item {
+            padding: 1rem;
+            border: 1px solid #999;
+        }
+
+        .container {
+            height: 12rem;
+            background: #ccc;
+            margin: 1rem;
+        }
+
+        /* 答案如下 */
+        /* 方法一: 绝对定位法 */
+        /* .container {
+            position: relative;
+        }
+
+        .item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        } */
+
+        /* 方法二: flex */
+        /* .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        } */
+
+        /* 方法二: flex */
+        /* .container {
+            display: flex;
+        }
+
+        .item {
+            margin: auto;
+        } */
+
+
+        /* 方法三: grid */
+        /* .container {
+            display: grid;
+            place-items: center;
+        } */
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="item" style="width: 100px; height: 100px; background: #999;">
+            块状元素
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="item">不定高宽的块状元素</div>
+    </div>
+
+    <div class="container">
+        <span class="item">行内元素</span>
+    </div>
+</body>
+
+</html>
