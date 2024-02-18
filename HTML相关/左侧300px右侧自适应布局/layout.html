@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>左侧固定300px右侧自适应的布局</title>
+    <style>
+        html * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 8px;
+        }
+
+        .container {
+            background: #efefef;
+            height: 200px;
+            margin-bottom: 2rem;
+        }
+
+        .left {
+            border: 1px solid #888;
+        }
+
+        .right {
+            border: 1px solid #888;
+        }
+
+        /* 答案 1: flex */
+        .flex-container {
+            display: flex;
+
+            .left {
+                width: 300px;
+            }
+
+            .right {
+                flex: 1;
+            }
+        }
+
+        /* 答案 2: grid */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+        }
+
+        /* 答案 3: bfc */
+        .bfc-container {
+            &>div {
+                height: 200px;
+            }
+
+            .left {
+                float: left;
+                width: 300px;
+            }
+
+            .right {
+                overflow: hidden;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="container flex-container">
+        <div class="left"></div>
+        <div class="right"></div>
+    </section>
+
+    <section class="container grid-container">
+        <div class="left"></div>
+        <div class="right"></div>
+    </section>
+
+    <section class="container bfc-container">
+        <div class="left"></div>
+        <div class="right"></div>
+    </section>
+</body>
+
+</html>
