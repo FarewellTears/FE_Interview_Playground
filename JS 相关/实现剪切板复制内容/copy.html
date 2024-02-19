@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实现剪切板复制内容</title>
+</head>
+
+<body>
+    <p>
+        1. Click this button: <button>Copy</button>
+    </p>
+
+    <p>
+        2. Paste into this input: <input />
+    </p>
+
+    <p>
+        3. Test status: <strong>pending</strong>
+    </p>
+    <script type="text/javascript">
+        window.module = {}
+    </script>
+    <script type="text/javascript" src="copy.js"></script>
+    <script type="text/javascript">
+        // 随机生成数，保留十位小数并转字符串，去掉字符串开头的 "0."
+        const secret = Math.random().toFixed(10).slice(2)
+
+        const setStatus = (success) => {
+            document.querySelector('strong').style.color = (success ? 'green' : 'red')
+            document.querySelector('strong').textContent = (success ? 'passed' : 'failed')
+        }
+
+        document.querySelector('button').addEventListener('click', () => {
+            if (!window.module.exports(secret)) setStatus(false);
+        })
+
+        document.querySelector('input').addEventListener('input', (e) => {
+            setStatus(e.target.value === secret)
+        })
+    </script>
+</body>
+
+</html>
